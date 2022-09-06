@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6</title>
+</head>
+
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        width: 50px;
+    }
+</style>
+
+
+<body>
+
+
+    <div>
+        <input type="number" id="number1">
+        <input type="button" value="+">
+        <input type="button" value="-">
+        <input type="button" value="*">
+        <input type="button" value="/">
+        <input type="button" value="^">
+        <input type="number" id="number2">
+        <span>=</span>
+        <input type="text" readonly id="ketqua">
+    </div>
+
+    <script>
+        const number1 = document.querySelector("#number1")
+        const number2 = document.querySelector("#number2")
+        const ketqua = document.querySelector("#ketqua")
+        const buttons = document.querySelectorAll('input[type="button"]')
+
+
+
+        buttons.forEach(button => {
+            button.addEventListener("click", (e) => {
+                const value1 = parseInt(number1.value)
+                const value2 = parseInt(number2.value)
+                if (!value1 || !value2) return alert('Vui lòng nhập sô')
+                switch (e.target.value) {
+                    case '+':
+                        ketqua.value = value1 + value2
+                        break;
+                    case '-':
+                        ketqua.value = value1 - value2
+                        break;
+                    case '*':
+                        ketqua.value = value1 * value2
+                        break;
+                    case '/':
+                        ketqua.value = value1 / value2
+                        break;
+                    case '^':
+                        ketqua.value = Math.pow(value1, value2)
+                        break;
+                    default:
+                        break;
+                }
+
+
+            })
+        })
+    </script>
+</body>
+
+</html>

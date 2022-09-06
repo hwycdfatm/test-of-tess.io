@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 2</title>
+</head>
+
+<body>
+    <form id="form">
+        <ul id='list'></ul>
+        <button type='submit'>Vẽ đồ thị</button>
+    </form>
+
+    <div id="dothi"></div>
+
+
+
+    <script>
+        const dataArrays = [
+            'Anh', 'Phap', 'Duc', 'Nga', 'Nhat'
+        ]
+
+
+        const list = document.querySelector('#list')
+        const dothi = document.querySelector('#dothi')
+        const form = document.querySelector('#form')
+
+
+        function renderForm() {
+            const htmlsRenderForm = dataArrays.map((data) =>
+                `<li>${data} : <input type=" number" name="${data}" required max="100" min="0"/> </li> `
+            )
+
+            list.innerHTML = htmlsRenderForm.join('')
+        }
+
+        renderForm()
+
+
+
+        function getValueFormAndRender(e) {
+            e.preventDefault()
+            const data = [];
+            let table = `<table border = "1" style = "margin-top:3rem;">`
+            for (let i = 0; i < form.elements.length - 1; i++) {
+                const e = form.elements[i];
+
+                data.push({
+                    name: e.name,
+                    value: e.value
+                });
+            }
+            const htmlsRenderDoThi = data.map((data) =>
+                `<tr>
+                    <td>${data.name}</td>
+                    <td style="width: 300px; height: 20px; position:relative">
+                        <div style="height: 100%; width: ${data.value > 0 ? data.value : 0}%; background-color:red"></div>
+                        <span style="position:absolute; top: 0; left: ${data.value > 0 ? data.value : 0}%;">${data.value}%</span>
+                    </td>
+                </tr> `
+            )
+
+            table += htmlsRenderDoThi.join('')
+
+
+            table += `</table>`
+
+            dothi.innerHTML = table
+        }
+
+        form.addEventListener('submit', getValueFormAndRender)
+
+    </script>
+</body>
+
+</html>

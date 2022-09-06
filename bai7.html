@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 7</title>
+</head>
+<style>
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+
+    .calendar {
+        width: 500px;
+        height: 100%;
+        border: 1px solid #000;
+        border-collapse: collapse;
+    }
+
+
+    .calendar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .calendar-header>span {
+        cursor: pointer;
+    }
+
+    .calendar-body {
+        padding: 1rem;
+    }
+
+    .calendar-week-day {
+        height: 50px;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        font-weight: 600;
+    }
+
+    .calendar-week-day div {
+        display: grid;
+        place-items: center;
+    }
+
+    .calendar-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+    }
+
+    .calendar-days div {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        position: relative;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .calendar-days .calendar-day-hover:hover {
+        cursor: pointer;
+        color: tomato;
+        background-color: rgba(204, 204, 204, 0.699);
+    }
+
+
+
+    .calendar-days div.curr-date,
+    .calendar-days div.curr-date:hover {
+        background-color: tomato;
+        color: white;
+    }
+</style>
+
+
+<body>
+    <div class="calendar">
+        <div class="calendar-header">
+            <span id="prev-month">
+                <pre><</pre>
+            </span>
+            <span id="month"></span>
+            <span id="next-month">
+                <pre>></pre>
+            </span>
+
+        </div>
+        <div class="calendar-body">
+            <div class="calendar-week-day">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+            <div class="calendar-days"></div>
+        </div>
+
+    </div>
+
+    <script>
+        let calendar = document.querySelector('.calendar')
+
+        const month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+        isLeapYear = (year) => {
+            return (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) || (year % 100 === 0 && year % 400 === 0)
+        }
+
+        getFebDays = (year) => {
+            return isLeapYear(year) ? 29 : 28
+        }
+
+        generateCalendar = (month, year) => {
+
+            let calendar_days = calendar.querySelector('.calendar-days')
+            let calendar_header_month = calendar.querySelector('#month')
+
+            let days_of_month = [31, getFebDays(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+            calendar_days.innerHTML = ''
+
+            let currDate = new Date()
+            if (!month) month = currDate.getMonth()
+            if (!year) year = currDate.getFullYear()
+
+            let curr_month = `${month_names[month]}`
+            calendar_header_month.innerHTML = `${curr_month} ${year}`
+
+
+            let first_day = new Date(year, month, 1)
+
+            for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
+                let day = document.createElement('div')
+                if (i >= first_day.getDay()) {
+                    day.classList.add('calendar-day-hover')
+                    day.innerHTML = i - first_day.getDay() + 1
+                    day.innerHTML += `<span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>`
+                    if (i - first_day.getDay() + 1 === currDate.getDate() && year === currDate.getFullYear() && month === currDate.getMonth()) {
+                        day.classList.add('curr-date')
+                    }
+                }
+                calendar_days.appendChild(day)
+            }
+        }
+
+
+
+        let currDate = new Date()
+
+        let curr_month = { value: currDate.getMonth() }
+        let curr_year = { value: currDate.getFullYear() }
+
+        generateCalendar(curr_month.value, curr_year.value)
+
+        document.querySelector('#prev-month').onclick = () => {
+            if (curr_month.value === 0) {
+                curr_month.value = 11
+                curr_year.value--
+            } else {
+                curr_month.value--
+            }
+
+            generateCalendar(curr_month.value, curr_year.value)
+        }
+
+        document.querySelector('#next-month').onclick = () => {
+            if (curr_month.value === 11) {
+                curr_month.value = 0
+                curr_year.value++
+            } else {
+                curr_month.value++
+            }
+            generateCalendar(curr_month.value, curr_year.value)
+        }
+    </script>
+</body>
+
+</html>

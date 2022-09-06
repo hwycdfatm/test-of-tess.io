@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3</title>
+</head>
+
+<body>
+    <h1 style="margin-left:15px;" id="clock">
+        00 : 00.0
+    </h1>
+    <div style=" display:flex;">
+        <button id="start">Bắt đầu</button>
+        <button id="pause">Tạm dừng</button>
+        <button id="reset">Reset</button>
+    </div>
+
+    <script>
+
+
+        const clock = document.getElementById('clock')
+        const startBtn = document.getElementById('start')
+        const pauseBtn = document.getElementById('pause')
+        const resetBtn = document.getElementById('reset')
+
+
+        let started = false
+        let totalMiliseconds = 0
+        let timeVariable
+
+
+        function countTimer() {
+            ++totalMiliseconds
+            let miliseconds = Math.floor(totalMiliseconds % 10)
+            let seconds = Math.floor(totalMiliseconds / 10 % 60)
+            let minute = Math.floor(totalMiliseconds / 600 % 60)
+            console.log(totalMiliseconds)
+            if (minute < 10)
+                minute = "0" + minute
+            if (seconds < 10)
+                seconds = "0" + seconds
+
+            started = true
+
+            clock.innerHTML = minute + " : " + seconds + "." + miliseconds
+        }
+
+
+        startBtn.addEventListener("click", () => {
+            if (started === true) return
+            timeVariable = setInterval(countTimer, 100)
+        })
+        pauseBtn.addEventListener("click", () => {
+            started = false
+            clearInterval(timeVariable)
+        })
+
+
+        resetBtn.addEventListener("click", () => {
+            started = false
+            clearInterval(timeVariable)
+            totalMiliseconds = 0
+            clock.innerHTML = "00 : 00.0"
+
+        })
+    </script>
+</body>
+
+</html>

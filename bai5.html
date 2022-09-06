@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 5</title>
+</head>
+
+<body>
+    <input type="number" required min="0" id="number" />
+    <button type="button" id="button">Vẽ tam giác</button>
+
+    <div id="content" style="padding-top:2rem"></div>
+
+
+    <script>
+        const btnDraw = document.querySelector("#button")
+        const content = document.querySelector("#content")
+
+
+
+
+
+
+        function draw() {
+            const number = document.querySelector("#number").value
+            let html = ''
+            let i, j
+            for (i = 0; i < number; i++) {
+                // Tạo khoảng trống
+                for (j = 0; j < number - i; j++) {
+                    html += `&nbsp;&nbsp;`
+
+                }
+                for (j = 0; j <= i / 2; j++) {
+                    html += `${Math.floor((1 + i - j) % 10)}&nbsp;&nbsp;`
+                }
+
+                for (j = i / 2; j < i; j++) {
+                    html += `${Math.floor((j + 2) % 10)}&nbsp;&nbsp;`
+                }
+                html += '<br/>'
+            }
+            content.innerHTML = html
+        }
+
+
+        btnDraw.addEventListener("click", draw)
+    </script>
+</body>
+
+</html>
